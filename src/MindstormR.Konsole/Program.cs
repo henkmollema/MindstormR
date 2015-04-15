@@ -30,8 +30,8 @@ namespace MindstormR.Konsole
                                 speed = (sbyte)(speed + 10);
                             }
                             Console.WriteLine("Motor A speed set to " + speed);
-                            brick.MotorA.On(speed);    
-                            //brick.Vehicle.Forward(speed);
+                            //brick.MotorA.On(speed);    
+                            brick.Vehicle.Forward(speed);
                             break;
                         case ConsoleKey.DownArrow:
                             if (speed > -100)
@@ -39,8 +39,8 @@ namespace MindstormR.Konsole
                                 speed = (sbyte)(speed - 10);
                             }
                             Console.WriteLine("Motor A speed set to " + speed);
-                            brick.MotorA.On(speed);    
-                            //brick.Vehicle.Forward(speed);
+                            //brick.MotorA.On(speed);    
+                            brick.Vehicle.Forward(speed);
                             break;
                         case ConsoleKey.S:
                             Console.WriteLine("Motor A off");
