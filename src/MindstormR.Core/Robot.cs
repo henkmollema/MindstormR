@@ -57,31 +57,7 @@ namespace MindstormR.Core
                     }
                     else
                     {
-                        if (SteeringLeft)
-                        {
-                            if (movement == Movement.Forward)
-                            {
-                                _vehicle.TurnLeftForward(_speed, Math.Abs(_steering));
-                            }
-                            else
-                            {
-                                // todo: test if we need to reverse right or left (don't forget Math.Abs)
-                                _vehicle.TurnRightReverse(_speed, _steering);
-                            }
-                        }
-                        else
-                        {
-                            if (movement == Movement.Forward)
-                            {
-                                // Steering to the right.
-                                _vehicle.TurnRightForward(_speed, _steering);
-                            }
-                            else
-                            {
-                                // todo: test if we need to reverse right or left (don't forget Math.Abs)
-                                _vehicle.TurnLeftReverse(_speed, Math.Abs(_steering));
-                            }
-                        }
+                        Turn();
                     }
                     break;
 
@@ -106,52 +82,56 @@ namespace MindstormR.Core
                         }
                     }
 
-                    if (NotMoving)
+                    Turn();
+                    break;
+            }
+        }
+
+        private void Turn()
+        {
+            if (NotMoving)
+            {
+                // Vehicle is not moving forward/backward, spin the vehicle.
+                if (SteeringRight)
+                {
+                    // Spin to the right.
+                    _vehicle.SpinRight(_steering);
+                }
+                else
+                {
+                    // Spin to the left.
+                    _vehicle.SpinLeft(Math.Abs(_steering));
+                }
+            }
+            else
+            {
+                // Vehile is moving forward/backward, turn the vehicle.
+                if (SteeringRight)
+                {
+                    // Turn to the right.
+                    if (MovingForward)
                     {
-                        // Vehicle is not moving forward/backward, spin the vehicle.
-                        if (SteeringRight)
-                        {
-                            // Spin to the right.
-                            _vehicle.SpinRight(_steering);
-                        }
-                        else
-                        {
-                            // Spin to the left.
-                            _vehicle.SpinLeft(Math.Abs(_steering));
-                        }
+                        _vehicle.TurnRightForward(_speed, _steering);
                     }
                     else
                     {
-                        // Vehile is moving forward/backward, turn the vehicle.
-                        if (SteeringRight)
-                        {
-                            // Turn to the right.
-                            if (MovingForward)
-                            {
-                                _vehicle.TurnRightForward(_speed, _steering);
-                            }
-                            else
-                            {
-                                // Vehicle is moving backward.
-                                _vehicle.TurnLeftReverse(Math.Abs(_speed), _steering);
-                            }
-                        }
-                        else
-                        {
-                            // Turn to the left.
-                            if (MovingForward)
-                            {
-                                _vehicle.TurnLeftForward(_speed, Math.Abs(_steering));
-                            }
-                            else
-                            {
-                                // Vehicle is moving backward.
-                                // todo: test backwrd steering.
-                                _vehicle.TurnRightReverse(Math.Abs(_speed), Math.Abs(_steering));
-                            }
-                        }
+                        // Vehicle is moving backward.
+                        _vehicle.TurnLeftReverse(Math.Abs(_speed), _steering);
                     }
-                    break;
+                }
+                else
+                {
+                    // Turn to the left.
+                    if (MovingForward)
+                    {
+                        _vehicle.TurnLeftForward(_speed, Math.Abs(_steering));
+                    }
+                    else
+                    {
+                        // Vehicle is moving backward.
+                        _vehicle.TurnRightReverse(Math.Abs(_speed), Math.Abs(_steering));
+                    }
+                }
             }
         }
 
