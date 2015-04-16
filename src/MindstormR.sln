@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.Konsole", "MindstormR.Konsole\MindstormR.Konsole.csproj", "{7B610F98-B22B-4646-A4DD-A0B859EE8844}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.MonoBrick", "MindstormR.MonoBrick\MindstormR.MonoBrick.csproj", "{E097A7CE-4909-4865-82E8-B74FEC383999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.Core", "MindstormR.Core\MindstormR.Core.csproj", "{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E097A7CE-4909-4865-82E8-B74FEC383999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E097A7CE-4909-4865-82E8-B74FEC383999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E097A7CE-4909-4865-82E8-B74FEC383999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

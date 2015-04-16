@@ -45,6 +45,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MindstormR.Core\MindstormR.Core.csproj">
+      <Project>{4a1d9087-a511-4cad-be1f-61fc5e0c4389}</Project>
+      <Name>MindstormR.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MindstormR.MonoBrick\MindstormR.MonoBrick.csproj">
       <Project>{E097A7CE-4909-4865-82E8-B74FEC383999}</Project>
       <Name>MindstormR.MonoBrick</Name>
