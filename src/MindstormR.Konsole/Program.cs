@@ -12,67 +12,81 @@ namespace MindstormR.Konsole
                 // Change 'usb' to 'WiFi' when you want to use WiFi. 
                 var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("WiFi");
                 sbyte speed = 0;
+                sbyte leftTurnPerfect = 0;
+                sbyte rightTurnPercent = 0;
+
                 brick.Connection.Open();
                 ConsoleKeyInfo cki;
-                Console.WriteLine("Press Q to quit");
+                Console.WriteLine("The EV3 brick has started. Use the arrow keys to navigate. Press Q to quit.");
                 do
                 {
-                    cki = Console.ReadKey(true); //press a key  
+                    cki = Console.ReadKey(true); 
                     switch (cki.Key)
                     {
-                        case ConsoleKey.R:
-                            Console.WriteLine("Motor A reverse direction");
-                            brick.MotorA.Reverse = !brick.MotorA.Reverse;
-                            break;
                         case ConsoleKey.UpArrow:
                             if (speed < 100)
                             {
                                 speed = (sbyte)(speed + 10);
                             }
-                            Console.WriteLine("Motor A speed set to " + speed);
-                            //brick.MotorA.On(speed);    
+                            Console.WriteLine("Vehicle speed set to " + speed);
                             brick.Vehicle.Forward(speed);
                             break;
+
                         case ConsoleKey.DownArrow:
                             if (speed > -100)
                             {
                                 speed = (sbyte)(speed - 10);
                             }
-                            Console.WriteLine("Motor A speed set to " + speed);
-                            //brick.MotorA.On(speed);    
+                            Console.WriteLine("Vehicle speed set to " + speed);
                             brick.Vehicle.Forward(speed);
                             break;
-                        case ConsoleKey.S:
-                            Console.WriteLine("Motor A off");
-                            speed = 0;
-                            brick.MotorA.Off();
-                            break;
-                        case ConsoleKey.B:
-                            Console.WriteLine("Motor A break");
-                            speed = 0;
-                            brick.MotorA.Brake();
-                            break;
-                        case ConsoleKey.T:
-                            int count = brick.MotorA.GetTachoCount();
-                            Console.WriteLine("Motor A tacho count:" + count);
-                            break;
-                        case ConsoleKey.C:
-                            Console.WriteLine("Clear tacho count");
-                            brick.MotorA.ResetTacho();
-                            break;
-                        case ConsoleKey.M:
-                            Console.WriteLine("Enter position to move to.");
-                            string input = Console.ReadLine();
-                            Int32 position;
-                            if (Int32.TryParse(input, out position))
+
+                        case ConsoleKey.LeftArrow:
+                            if (rightTurnPercent > 0)
                             {
-                                Console.WriteLine("Move to " + position);
-                                brick.MotorA.MoveTo(50, position, false);
+                                rightTurnPercent -= 10;
+                                Console.WriteLine("Set vehicle right turn percent to " + rightTurnPercent);
+                                brick.Vehicle.TurnRightForward(speed, rightTurnPercent);
                             }
                             else
                             {
-                                Console.WriteLine("Enter a valid number");
+                                if (leftTurnPerfect < 100)
+                                {
+                                    leftTurnPerfect += 10;
+                                }
+                                Console.WriteLine("Set vehicle left turn perfect to " + leftTurnPerfect);
+                                brick.Vehicle.TurnLeftForward(speed, leftTurnPerfect);
                             }
+                            break;
+
+                        case ConsoleKey.RightArrow:
+                            if (leftTurnPerfect > 0)
+                            {
+                                leftTurnPerfect -= 10;
+                                Console.WriteLine("Set vehicle left turn percent to " + leftTurnPerfect);
+                                brick.Vehicle.TurnLeftForward(speed, leftTurnPerfect);
+                            }
+                            else
+                            {
+                                if (rightTurnPercent < 100)
+                                {
+                                    rightTurnPercent += 10;
+                                }
+                                Console.WriteLine("Set vehicle right speed to " + rightTurnPercent);
+                                brick.Vehicle.TurnRightForward(speed, rightTurnPercent);
+                            }
+                            break;
+
+                        case ConsoleKey.O:
+                            Console.WriteLine("Vehicle off");
+                            speed = 0;
+                            brick.Vehicle.Off();
+                            break;
+
+                        case ConsoleKey.B:
+                            Console.WriteLine("Vehicle break");
+                            speed = 0;
+                            brick.Vehicle.Brake();
                             break;
                     }
                 } while (cki.Key != ConsoleKey.Q);
@@ -80,7 +94,7 @@ namespace MindstormR.Konsole
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
-                Console.WriteLine("Press any key to end...");
+                Console.WriteLine("Press any key to quit...");
                 Console.ReadKey();
             }
         }
