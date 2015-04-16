@@ -10,7 +10,7 @@ namespace MindstormR.Konsole
             try
             {
                 // Change 'usb' to 'WiFi' when you want to use WiFi. 
-                var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("usb");
+                var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("WiFi");
                 sbyte speed = 0;
                 brick.Connection.Open();
                 ConsoleKeyInfo cki;
