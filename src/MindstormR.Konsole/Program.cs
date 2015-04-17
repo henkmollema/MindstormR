@@ -13,6 +13,8 @@ namespace MindstormR.Konsole
                 // Change 'usb' to 'WiFi' when you want to use WiFi. 
                 var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("WiFi");
                 var robot = new Robot(brick.Vehicle);
+                bool toggleA = false;
+                sbyte speed = 0;
 
                 brick.Connection.Open();
                 ConsoleKeyInfo cki;
@@ -22,12 +24,37 @@ namespace MindstormR.Konsole
                     cki = Console.ReadKey(true);
                     switch (cki.Key)
                     {
+                        case ConsoleKey.A:
+                            toggleA = !toggleA;
+                            Console.WriteLine("Toggled motor A: " + toggleA ? "on" : "off");
+                            break;
+
                         case ConsoleKey.UpArrow:
+                            if (toggleA)
+                            {
+                                if (speed < 100)
+                                {
+                                    speed += 10;
+                                }
+                                brick.MotorA.On(speed);
+                                break;
+                            }
+
                             robot.Move(Movement.Forward);
                             Console.WriteLine("Vehicle speed set to " + robot.Speed);
                             break;
 
                         case ConsoleKey.DownArrow:
+                            if (toggleA)
+                            {
+                                if (speed > -100)
+                                {
+                                    speed -= 10;
+                                }
+                                brick.MotorA.On(speed);
+                                break;
+                            }
+
                             robot.Move(Movement.Backward);
                             Console.WriteLine("Vehicle speed set to " + robot.Speed);
                             break;
