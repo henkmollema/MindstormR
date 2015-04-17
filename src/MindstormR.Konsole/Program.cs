@@ -26,7 +26,7 @@ namespace MindstormR.Konsole
                     {
                         case ConsoleKey.A:
                             toggleA = !toggleA;
-                            Console.WriteLine("Toggled motor A: " + toggleA ? "on" : "off");
+                            Console.WriteLine("Toggled motor A: " + (toggleA ? "on" : "off"));
                             break;
 
                         case ConsoleKey.UpArrow:
@@ -36,7 +36,7 @@ namespace MindstormR.Konsole
                                 {
                                     speed += 10;
                                 }
-                                brick.MotorA.On(speed);
+                                brick.MotorB.On(speed);
                                 break;
                             }
 
@@ -51,7 +51,7 @@ namespace MindstormR.Konsole
                                 {
                                     speed -= 10;
                                 }
-                                brick.MotorA.On(speed);
+                                brick.MotorB.On(speed);
                                 break;
                             }
 
