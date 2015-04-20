@@ -13,6 +13,8 @@ namespace MindstormR.Konsole
                 // Change 'usb' to 'WiFi' when you want to use WiFi. 
                 var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("WiFi");
                 var robot = new Robot(brick.Vehicle);
+                bool toggleA = false;
+                sbyte speed = 0;
 
                 brick.Connection.Open();
                 ConsoleKeyInfo cki;
@@ -22,29 +24,37 @@ namespace MindstormR.Konsole
                     cki = Console.ReadKey(true);
                     switch (cki.Key)
                     {
-                        case ConsoleKey.B:
-                            // Fire a single shot.
-                            Console.WriteLine("Firing motor B!");
-
-                            brick.MotorB.ResetTacho();
-                            brick.MotorB.MoveTo(127, 1080, true);
-                            break;
-
-                        case ConsoleKey.X:
-                            // Keep shooting.
-                            brick.MotorB.On(127);
-                            break;
-
-                        case ConsoleKey.Z:
-                            brick.MotorB.Brake();
+                        case ConsoleKey.A:
+                            toggleA = !toggleA;
+                            Console.WriteLine("Toggled motor A: " + (toggleA ? "on" : "off"));
                             break;
 
                         case ConsoleKey.UpArrow:
+                            if (toggleA)
+                            {
+                                if (speed < 100)
+                                {
+                                    speed += 10;
+                                }
+                                brick.MotorB.On(speed);
+                                break;
+                            }
+
                             robot.Move(Movement.Forward);
                             Console.WriteLine("Vehicle speed set to " + robot.Speed);
                             break;
 
                         case ConsoleKey.DownArrow:
+                            if (toggleA)
+                            {
+                                if (speed > -100)
+                                {
+                                    speed -= 10;
+                                }
+                                brick.MotorB.On(speed);
+                                break;
+                            }
+
                             robot.Move(Movement.Backward);
                             Console.WriteLine("Vehicle speed set to " + robot.Speed);
                             break;
@@ -62,6 +72,11 @@ namespace MindstormR.Konsole
                         case ConsoleKey.O:
                             Console.WriteLine("Vehicle off");
                             brick.Vehicle.Off();
+                            break;
+
+                        case ConsoleKey.B:
+                            Console.WriteLine("Vehicle break");
+                            brick.Vehicle.Brake();
                             break;
                     }
                 } while (cki.Key != ConsoleKey.Q);
