@@ -1,6 +1,7 @@
 ﻿using System;
 using MindstormR.Core;
 using MonoBrick.EV3;
+using System.Collections.Generic;
 
 namespace MindstormR.Konsole
 {
@@ -10,8 +11,8 @@ namespace MindstormR.Konsole
         {
             try
             {
-                // Change 'usb' to 'WiFi' when you want to use WiFi. 
-                var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("WiFi");
+                // "usb", "wifi", "/dev/tty.EV3-SerialPort"
+                var brick = new Brick<Sensor, Sensor, Sensor, Sensor>("/dev/tty.EV3-SerialPort");
                 var robot = new Robot(brick.Vehicle);
 
                 brick.Connection.Open();
