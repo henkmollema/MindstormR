@@ -2,4 +2,4 @@ build:
   project: src/MindstormR.sln
 
 before_build:
-  - nuget restore
+  - nuget restore src/MindstormR.sln
