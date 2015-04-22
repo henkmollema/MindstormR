@@ -1,10 +1,7 @@
 # MindstormR
-Platform to control Lego Mindstorms EV3 using a webserver.
 
-### MonoBrick
-The [MonoBrick](http://www.monobrick.dk/software/monobrick/) SDK is used for communication with the EV3 brick. See the [communication guide](http://www.monobrick.dk/guides/communication-library-guides/monobrick-guide/) for more info.
+[![Build status](https://ci.appveyor.com/api/projects/status/mop7ddqcdei0b91v?svg=true)](https://ci.appveyor.com/project/henkmollema/mindstormr)
 
-It can either work with USB or WiFi.
+![NHL](http://www.nhl.nl/interface/images/logo2.gif)
 
-### MindstormR
-MindStormR is the platform which uses MonoBrick to setup a connection and send commands to the EV3 brick. Eventually, via a website as front-end.
+Platform to control Lego Mindstorms EV3 robots using a webserver.
