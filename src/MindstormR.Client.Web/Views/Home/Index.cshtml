@@ -2,21 +2,19 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="row-fluid col-md-12">
-    <div class="col-md-12 text-center">
-        <img src="~/Content/Images/arrow_up.png" />
-    </div>
-    <div class="col-md-6 text-left">
-        <img src="~/Content/Images/arrow_left.png" />
-    </div>
-    <div class="col-md-6 text-right">
-        <img src="~/Content/Images/arrow_right.png" />
-    </div>
-    <div class="col-md-12 text-center">
-        <img src="~/Content/Images/arrow_down.png" />
-    </div>
-    <div class="col-md-12 text-right">
-        <img src="~/Content/Images/engine.png" />
-    </div>
+<style>
+    body, html {
+    min-height: 100%;
+    height: 100%;
+}
+</style>
+
+<div class="container">
+    <!--Hoezo werkt het top-attribuut niet met percentages?-->
+    <img src="~/Content/Images/arrow_up.png" class="img-responsive" style="width: 20%; position: relative; left: 25%; top: 50%;" />
+    <img src="~/Content/Images/arrow_left.png" class="img-responsive pull-left" style="width: 20%; position: relative; top: 10%;" />
+    <img src="~/Content/Images/arrow_right.png" class="img-responsive pull-left" style="width: 20%; position: relative; left: 30%; top: 10%;" />
+    <img src="~/Content/Images/arrow_down.png" class="img-responsive" style="width: 20%; position: relative; left: -15%; top: 225px;" />
+    <img src="~/Content/Images/engine.png" class="img-responsive" style="width: 20%; position: relative; top: 30px; left: 50%" />
 </div>
 
