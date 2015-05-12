@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3F059D54-6030-4511-89A3-220D92F79709}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MindstormR.MonoBrick.Firmware</RootNamespace>
+    <AssemblyName>MindstormR.MonoBrick.Firmware</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Connections\WiFiDevice.cs" />
+    <Compile Include="Display\Basics.cs" />
+    <Compile Include="Display\Bitmap.cs" />
+    <Compile Include="Display\Console.cs" />
+    <Compile Include="Display\Font.cs" />
+    <Compile Include="Display\Lcd.cs" />
+    <Compile Include="Display\MonoPicture.cs" />
+    <Compile Include="Display\Animation\IAnimation.cs" />
+    <Compile Include="Display\Animation\ProgressAnimation.cs" />
+    <Compile Include="Display\Dialogs\CharacterDialog.cs" />
+    <Compile Include="Display\Dialogs\Dialog.cs" />
+    <Compile Include="Display\Dialogs\DialogWithProgessAnimation.cs" />
+    <Compile Include="Display\Dialogs\IStep.cs" />
+    <Compile Include="Display\Dialogs\InfoDialog.cs" />
+    <Compile Include="Display\Dialogs\ProgressDialog.cs" />
+    <Compile Include="Display\Dialogs\QuestionsDialog.cs" />
+    <Compile Include="Display\Dialogs\SelectDialog.cs" />
+    <Compile Include="Display\Dialogs\StepContainer.cs" />
+    <Compile Include="Display\Dialogs\StepDialog.cs" />
+    <Compile Include="Display\Menus\IMenuItem.cs" />
+    <Compile Include="Display\Menus\Menu.cs" />
+    <Compile Include="Display\Menus\MenuItemWithAction.cs" />
+    <Compile Include="Display\Menus\MenuItemWithCharacterInput.cs" />
+    <Compile Include="Display\Menus\MenuItemWithCheckBox.cs" />
+    <Compile Include="Display\Menus\MenuItemWithNumericInput.cs" />
+    <Compile Include="Display\Menus\MenuItemWithOptions.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="FileSystem\ProgramCreator.cs" />
+    <Compile Include="FileSystem\ProgramInformation.cs" />
+    <Compile Include="FileSystem\ProgramManager.cs" />
+    <Compile Include="Management\Battery.cs" />
+    <Compile Include="Movement\Motor.cs" />
+    <Compile Include="Movement\MotorBase.cs" />
+    <Compile Include="Movement\MotorSync.cs" />
+    <Compile Include="Movement\Output.cs" />
+    <Compile Include="Movement\PositionPID.cs" />
+    <Compile Include="Movement\Vehicle.cs" />
+    <Compile Include="Native\AOTHelper.cs" />
+    <Compile Include="Native\KernelByteCodes.cs" />
+    <Compile Include="Native\Libc.cs" />
+    <Compile Include="Native\ProcessHelper.cs" />
+    <Compile Include="Sensors\AnalogSensor.cs" />
+    <Compile Include="Sensors\EV3ColorSensor.cs" />
+    <Compile Include="Sensors\EV3GyroSensor.cs" />
+    <Compile Include="Sensors\EV3IRSensor.cs" />
+    <Compile Include="Sensors\EV3TouchSensor.cs" />
+    <Compile Include="Sensors\EV3UltraSonicSensor.cs" />
+    <Compile Include="Sensors\HTColorSensor.cs" />
+    <Compile Include="Sensors\HTCompassSensor.cs" />
+    <Compile Include="Sensors\HTGyroSensor.cs" />
+    <Compile Include="Sensors\HTTiltSensor.cs" />
+    <Compile Include="Sensors\I2CSensor.cs" />
+    <Compile Include="Sensors\ISensor.cs" />
+    <Compile Include="Sensors\MSAngleSensor.cs" />
+    <Compile Include="Sensors\MSDistanceSensor.cs" />
+    <Compile Include="Sensors\MSSensorMuxBase.cs" />
+    <Compile Include="Sensors\NXTColorSensor.cs" />
+    <Compile Include="Sensors\NXTLightSensor.cs" />
+    <Compile Include="Sensors\NXTSoundSensor.cs" />
+    <Compile Include="Sensors\NXTTouchSensor.cs" />
+    <Compile Include="Sensors\NXTUltraSonicSensor.cs" />
+    <Compile Include="Sensors\NoSensor.cs" />
+    <Compile Include="Sensors\SensorAttachment.cs" />
+    <Compile Include="Sensors\SensorDetector.cs" />
+    <Compile Include="Sensors\SensorFactory.cs" />
+    <Compile Include="Sensors\SensorListner.cs" />
+    <Compile Include="Sensors\SensorManager.cs" />
+    <Compile Include="Sensors\UARTSensor.cs" />
+    <Compile Include="Sensors\UnknownSensor.cs" />
+    <Compile Include="Sound\Speaker.cs" />
+    <Compile Include="Tools\BmpImage.cs" />
+    <Compile Include="Tools\ByteArrayCreator.cs" />
+    <Compile Include="Tools\MovingAverage.cs" />
+    <Compile Include="Tools\PIDAbstraction.cs" />
+    <Compile Include="Tools\QueueThread.cs" />
+    <Compile Include="Tools\VersionHelper.cs" />
+    <Compile Include="Tools\XmlHelper.cs" />
+    <Compile Include="UserInput\ButtonEvents.cs" />
+    <Compile Include="UserInput\Buttons.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="Display\Resources\info56_12.bin" />
+    <None Include="Display\Resources\profont_7.bin" />
+  </ItemGroup>
+</Project>
