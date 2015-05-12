@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{803879AC-26C2-49B0-AAA0-0DE4A7C68C87};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{97C06C7B-A67F-4B65-9E2B-4646B3D8E47E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MindstormR.EV3</RootNamespace>
+    <AssemblyName>MindstormR.EV3</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MindstormR.Core\MindstormR.Core.csproj">
+      <Project>{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}</Project>
+      <Name>MindstormR.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MindstormR.MonoBrick.Firmware\MindstormR.MonoBrick.Firmware.csproj">
+      <Project>{3F059D54-6030-4511-89A3-220D92F79709}</Project>
+      <Name>MindstormR.MonoBrick.Firmware</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
