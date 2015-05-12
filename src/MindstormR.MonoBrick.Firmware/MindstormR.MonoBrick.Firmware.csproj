@@ -7,7 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MindstormR.MonoBrick.Firmware</RootNamespace>
     <AssemblyName>MindstormR.MonoBrick.Firmware</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +29,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,7 +115,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Display\Resources\info56_12.bin" />
-    <None Include="Display\Resources\profont_7.bin" />
+    <EmbeddedResource Include="Display\Resources\info56_12.bin">
+      <LogicalName>font.info56_12</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\Resources\profont_7.bin">
+      <LogicalName>font.profont_7</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
