@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using Nancy.Hosting.Self;
 
 namespace MindstormR.Server.Nancy
 {
-    class MainClass
+    internal class MainClass
     {
         public static void Main(string[] args)
         {
-            using (var nancyHost = new NancyHost(new Uri("http://localhost:8888/")))
-            {
-                nancyHost.Start();
+            const string uri = "http://localhost:8888";
+            W("Starting MindstormR Nancy webserver at {0}", uri);
 
-                Console.WriteLine("Nancy now listening - navigating to http://localhost:8888/nancy/. Press enter to stop");
-                try
-                {
-                    Process.Start("http://localhost:8888/");
-                }
-                catch (Exception)
-                {
-                }
+            var host = new NancyHost(new Uri(uri));
+            host.Start();
+            W("Nancy hosting started");
+
+            // Under mono if you daemonize a process a Console.ReadLine will cause an EOF 
+            // so we need to block another way.
+            if (args.Any(s => s.Equals("-d", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                Thread.Sleep(Timeout.Infinite);
+            }
+            else
+            {
                 Console.ReadKey();
             }
 
-            Console.WriteLine("Stopped. Good bye!");
+            host.Stop();
+            W("Hosting stopped");
+        }
+
+        private static void W(string format, params object[] args)
+        {
+            Console.WriteLine(format, args);
         }
     }
 }
