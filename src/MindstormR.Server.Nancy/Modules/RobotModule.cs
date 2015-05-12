@@ -1,6 +1,7 @@
 ﻿using System;
 using Nancy;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MindstormR.Client.Nancy
 {
@@ -15,6 +16,8 @@ namespace MindstormR.Client.Nancy
         {
             Get["/login"] = Login;
             Get["{id:int}/logout"] = Logout;
+
+            Get["all"] = GetRobots;
 
             Get["{id:int}/forward"] = _ => PushCommand(_.id, Command.Forward);
             Get["{id:int}/backward"] = _ => PushCommand(_.id, Command.Backward);
@@ -38,6 +41,11 @@ namespace MindstormR.Client.Nancy
             _clients.Remove(parameters.id);
             _commands.Remove(parameters.id);
             return true.ToString();
+        }
+
+        private dynamic GetRobots(dynamic parameters)
+        {
+            return JsonConvert.SerializeObject(_clients.ToArray());
         }
 
         private dynamic PushCommand(int id, Command command)
