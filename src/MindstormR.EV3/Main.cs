@@ -4,21 +4,29 @@ using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Display;
 using MonoBrickFirmware.Movement;
 using System.Threading;
+using System.Net;
 
 namespace MonoBrickHelloWorld
 {
     class MainClass
     {
+        private static int _id;
+
         public static void Main(string[] args)
         {
-            InfoDialog dialog = new InfoDialog("Attach a motor to port A", true);
-            dialog.Show();//Wait for enter to be pressed
-            Motor motor = new Motor(MotorPort.OutA);
-            motor.SetSpeed(50);
-            Thread.Sleep(3000);
-            motor.Off();
-            Lcd.Instance.Clear();
+            try
+            {
+                string url = "http://test.henkmollema.nl/robot/login";
+                WebClient client = new WebClient();
+                string s = client.DownloadString(url);
+                _id = int.Parse(s);
+
+                new InfoDialog("Robot id: " + _id, true).Show();
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
         }
     }
 }
-
