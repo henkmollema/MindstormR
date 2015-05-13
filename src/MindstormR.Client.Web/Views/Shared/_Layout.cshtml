@@ -18,6 +18,14 @@
                 </button>
                 @Html.ActionLink("MindstormR Controller", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Robot<span class="caret"></span></a>
+                        <ul class="dropdown-menu" id="output" role="menu" aria-labelledby="dropdownMenu1"></ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="container body-content">
