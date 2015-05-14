@@ -56,6 +56,9 @@
 {
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript">
+
+        var robotId;
+
         $.getJSON('http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?', function (data) {
             var output = "";
             for (var i in data.contents) {
@@ -65,11 +68,10 @@
             document.getElementById("robots").innerHTML = output;
         });
 
-        var robotId;
-
         $(function () {
             $('#robots').on('click', 'a', function () {
                 robotId = $(this).data("id");
+                document.getElementById("dropdown-title").childNodes[0].nodeValue = "Robot " + robotId;
             });
         });
 
