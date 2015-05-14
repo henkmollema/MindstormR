@@ -15,7 +15,7 @@ namespace MindstormR.Client.Web.Controllers
             return View();
         }
 
-        public JsonResult ControlClick(string command)
+        public JsonResult ControlClick(int id, string command)
         {
             using (var client = new HttpClient())
             {
@@ -23,7 +23,7 @@ namespace MindstormR.Client.Web.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = client.GetAsync(string.Format("robot/{0}/{1}", "1000", command)).Result;
+                var response = client.GetAsync(string.Format("robot/{0}/{1}", id, command)).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     return Json(new { success = true });

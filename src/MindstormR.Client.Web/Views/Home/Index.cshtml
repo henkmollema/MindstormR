@@ -59,10 +59,18 @@
         $.getJSON('http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?', function (data) {
             var output = "";
             for (var i in data.contents) {
-                output += "<li id='" + data.contents[i] + "' role='presentation'><a href='#' role='menuitem'>" + "Robot " + data.contents[i] + "</a></li>";
+                output += "<li role='presentation'><a href='#' data-id='" + data.contents[i] + "' role='menuitem'>" + "Robot " + data.contents[i] + "</a></li>";
             }
 
-            document.getElementById("output").innerHTML = output;
+            document.getElementById("robots").innerHTML = output;
+        });
+
+        var robotId;
+
+        $(function () {
+            $('#robots').on('click', 'a', function () {
+                robotId = $(this).data("id");
+            });
         });
 
         $(function () {
@@ -71,6 +79,7 @@
                 $.post(
                     '@Url.Action("ControlClick", "Home")',
                     {
+                        'id': robotId,
                         'command': command
                     },
                     function (result) {
@@ -79,6 +88,6 @@
                     });
             });
         });
-    </script>
+</script>
 }
 
