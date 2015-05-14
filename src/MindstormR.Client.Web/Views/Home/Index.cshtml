@@ -58,7 +58,7 @@
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript">
 
-        var robotId;
+        var robotId = -1;
 
         $.getJSON('http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?', function (data) {
             var output = "";
@@ -79,6 +79,9 @@
         $(function () {
             $('#controls').on('click', 'a', function () {
                 var command = $(this).data("command");
+                if (robotId == -1) {
+                    window.alert("Selecteer eerst een robot!");
+                }
                 $.post(
                     '@Url.Action("ControlClick", "Home")',
                     {
