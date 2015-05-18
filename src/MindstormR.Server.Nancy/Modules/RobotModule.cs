@@ -57,7 +57,7 @@ namespace MindstormR.Client.Nancy
 
         private dynamic PushCommand(int id, Command command)
         {
-            // Push a command on the stack of the robot with the specified id.
+            // Add a command to the queue of the robot with the specified id.
             Queue<Command> commands;
             if (_commands.TryGetValue(id, out commands))
             {
@@ -70,7 +70,7 @@ namespace MindstormR.Client.Nancy
 
         private dynamic PopCommand(dynamic parameters)
         {
-            // Pop the last command from the stack of the robot with the specified id.
+            // Dequeue the last command from the queue of the robot with the specified id.
             Queue<Command> commands;
             if (_commands.TryGetValue(parameters.id, out commands))
             {
