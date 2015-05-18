@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using MonoBrickFirmware;
 using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Display;
@@ -16,21 +17,47 @@ namespace MonoBrickHelloWorld
         {
             try
             {
-                string url = "http://test.henkmollema.nl/robot/login";
-                WebClient client = new WebClient();
-                string s = client.DownloadString(url);
+                const string baseUrl = "http://test.henkmollema.nl/robot/";
+
+                var sw = Stopwatch.StartNew();
+                var client = new WebClient();
+                string s = client.DownloadString(baseUrl + "login");
+                sw.Stop();
+
                 if (!int.TryParse(s, out _id))
                 {
-                    new InfoDialog(string.Format("Invalid ID from the webserver: '{0}'.", s), true, "Error").Show();
+                    Info("Invalid ID from the webserver: '{0}'. ({1:n2}s)", true, "Error", s, sw.Elapsed.TotalSeconds);
                     return;
                 }
 
-                new InfoDialog("Robot id: " + _id, true).Show();
+                Info("Robot logged in. ID: {0}. ({1:n2}s)", _id, sw.Elapsed.TotalSeconds);
+                for (int i = 0; i < 5; i++)
+                {
+                    sw.Restart();
+                    string data = client.DownloadString(baseUrl + 1020 + "/command");
+                    sw.Stop();
+                    Info("Command from robot 1020: '{0}'. ({1:n2})", data, sw.Elapsed.TotalSeconds);
+                }
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
             }
+        }
+
+        private static void Info(string format, params object[] arg)
+        {
+            new InfoDialog(string.Format(format, arg), true).Show();
+        }
+
+        private static void Info(string format, bool waitForOk, params object[] arg)
+        {
+            new InfoDialog(string.Format(format, arg), waitForOk).Show();
+        }
+
+        private static void Info(string format, bool waitForOk, string title, params object[] arg)
+        {
+            new InfoDialog(string.Format(format, arg), waitForOk, title).Show();
         }
     }
 }
