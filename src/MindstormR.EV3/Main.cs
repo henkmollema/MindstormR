@@ -19,7 +19,11 @@ namespace MonoBrickHelloWorld
                 string url = "http://test.henkmollema.nl/robot/login";
                 WebClient client = new WebClient();
                 string s = client.DownloadString(url);
-                _id = int.Parse(s);
+                if (!int.TryParse(s, out _id))
+                {
+                    new InfoDialog(string.Format("Invalid ID from the webserver: '{0}'.", s), true, "Error").Show();
+                    return;
+                }
 
                 new InfoDialog("Robot id: " + _id, true).Show();
             }
