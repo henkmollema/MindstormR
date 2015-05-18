@@ -43,9 +43,9 @@
     <Compile Include="Robot.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MindstormR.MonoBrick\MindstormR.MonoBrick.csproj">
-      <Project>{E097A7CE-4909-4865-82E8-B74FEC383999}</Project>
-      <Name>MindstormR.MonoBrick</Name>
+    <ProjectReference Include="..\MindstormR.MonoBrick.Firmware\MindstormR.MonoBrick.Firmware.csproj">
+      <Project>{3F059D54-6030-4511-89A3-220D92F79709}</Project>
+      <Name>MindstormR.MonoBrick.Firmware</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

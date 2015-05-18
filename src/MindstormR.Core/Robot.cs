@@ -1,5 +1,6 @@
 ﻿using System;
-using MonoBrick;
+using MonoBrickFirmware;
+using MonoBrickFirmware.Movement;
 
 namespace MindstormR.Core
 {
@@ -8,7 +9,7 @@ namespace MindstormR.Core
     /// </summary>
     public class Robot
     {
-        private readonly IVehicle _vehicle;
+        private readonly Vehicle _vehicle;
         private sbyte _speed;
         private sbyte _steering;
 
@@ -16,7 +17,7 @@ namespace MindstormR.Core
         /// Initializes a new instance of the <see cref="Robot"/> class using the specified vehicle.
         /// </summary>
         /// <param name="vehile">The lego vehicle instance.</param>
-        public Robot(IVehicle vehile)
+        public Robot(Vehicle vehile)
         {
             _vehicle = vehile;
         }
