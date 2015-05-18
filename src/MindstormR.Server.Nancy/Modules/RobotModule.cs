@@ -16,6 +16,7 @@ namespace MindstormR.Client.Nancy
         {
             Get["/login"] = Login;
             Get["{id:int}/logout"] = Logout;
+            Get["/flush"] = Flush;
 
             Get["all"] = GetRobots;
 
@@ -38,8 +39,15 @@ namespace MindstormR.Client.Nancy
 
         private dynamic Logout(dynamic parameters)
         {
-            _clients.Remove(parameters.id);
             _commands.Remove(parameters.id);
+            _clients.Remove(parameters.id);
+            return true.ToString();
+        }
+
+        private dynamic Flush(dynamic parameters)
+        {
+            _commands.Clear();
+            _clients.Clear();
             return true.ToString();
         }
 
