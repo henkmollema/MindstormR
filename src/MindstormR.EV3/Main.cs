@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
+using System.Threading;
 using MindstormR.Core;
 using MonoBrickFirmware;
-using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Display;
+using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Movement;
-using System.Threading;
-using System.Net;
 
 namespace MonoBrickHelloWorld
 {
