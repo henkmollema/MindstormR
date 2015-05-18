@@ -31,12 +31,26 @@ namespace MonoBrickHelloWorld
                 }
 
                 Info("Robot logged in. ID: {0}. ({1:n2}s)", _id, sw.Elapsed.TotalSeconds);
-                for (int i = 0; i < 5; i++)
+
+                while (true)
                 {
                     sw.Restart();
-                    string data = client.DownloadString(baseUrl + 1020 + "/command");
+                    string data = client.DownloadString(baseUrl + _id + "/command");
                     sw.Stop();
-                    Info("Command from robot 1020: '{0}'. ({1:n2})", data, sw.Elapsed.TotalSeconds);
+
+                    Info("Command {2}: '{0}'. ({1:n2})", false, "Robot " + _id, data, sw.Elapsed.TotalSeconds, _id);
+
+                    switch (data.ToLower())
+                    {
+                        case "fire":
+                            var motor = new Motor(MotorPort.OutB);
+                            motor.SetSpeed(100);
+                            Thread.Sleep(1000);
+                            motor.Brake();
+                            break;
+                    }
+
+                    Thread.Sleep(500);
                 }
             }
             catch (Exception ex)
