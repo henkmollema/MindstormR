@@ -7,6 +7,7 @@ using MonoBrickFirmware;
 using MonoBrickFirmware.Display;
 using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Movement;
+using MonoBrickFirmware.UserInput;
 
 namespace MonoBrickHelloWorld
 {
@@ -18,6 +19,12 @@ namespace MonoBrickHelloWorld
         {
             try
             {
+                bool running = true;
+                var buttons = new ButtonEvents();
+
+                // Quit when escape is pressed.
+                buttons.EscapePressed += () => running = false;
+
                 const string baseUrl = "http://test.henkmollema.nl/robot/";
 
                 var sw = Stopwatch.StartNew();
@@ -36,13 +43,13 @@ namespace MonoBrickHelloWorld
                 var vehicle = new Vehicle(MotorPort.OutA, MotorPort.OutC);
                 var robot = new Robot(vehicle);
 
-                while (true)
+                while (running)
                 {
                     sw.Restart();
                     string data = client.DownloadString(baseUrl + _id + "/command");
                     sw.Stop();
 
-                    Info("Command {2}: '{0}'. ({1:n2})", false, "Robot " + _id, data, sw.Elapsed.TotalSeconds, _id);
+                    Info("Command {2}: '{0}'. ({1:n2}ms)", false, "Robot " + _id, data, sw.Elapsed.TotalMilliseconds, _id);
 
                     switch (data.ToLower())
                     {
@@ -75,9 +82,12 @@ namespace MonoBrickHelloWorld
                             break;
                     }
 
-                    // todo: consider using signalr for this
+                    // todo: consider using signalr for this -> #18
                     Thread.Sleep(500);
                 }
+
+                Info("Logging out...", false, "Robot " + _id);
+                client.DownloadString(baseUrl + _id + "/logout");
             }
             catch (Exception ex)
             {
@@ -88,11 +98,6 @@ namespace MonoBrickHelloWorld
         private static void Info(string format, params object[] arg)
         {
             new InfoDialog(string.Format(format, arg), true).Show();
-        }
-
-        private static void Info(string format, bool waitForOk, params object[] arg)
-        {
-            new InfoDialog(string.Format(format, arg), waitForOk).Show();
         }
 
         private static void Info(string format, bool waitForOk, string title, params object[] arg)
