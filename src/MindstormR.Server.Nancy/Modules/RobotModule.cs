@@ -1,7 +1,6 @@
 ﻿using System;
-using Nancy;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using Nancy;
 
 namespace MindstormR.Client.Nancy
 {
@@ -53,7 +52,7 @@ namespace MindstormR.Client.Nancy
 
         private dynamic GetRobots(dynamic parameters)
         {
-            return JsonConvert.SerializeObject(_clients.ToArray());
+            return Response.AsJson(_clients.ToArray());
         }
 
         private dynamic PushCommand(int id, Command command)
