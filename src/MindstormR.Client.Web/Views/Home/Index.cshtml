@@ -1,56 +1,52 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<!DOCTYPE html>
-<html>
-<body>
-    <style>
-        html, body { height: 100%; width: 100%; margin: 0; }
-        .container { height: 100%; width: 100%; }
-        #controls { height: 100%; width: 50%; }
-        #sensors { height: 100%; width: 45%; }
-    </style>
 
-    <div class="container">
-        <div id="controls" class="pull-right">
-            <a href="#" data-command="forward"><img src="~/Content/Images/arrow_up.png" class="img-responsive" style="width: 30%; position: relative; left: 24%; top: 5%;" /></a>
-            <a href="#" data-command="left"><img src="~/Content/Images/arrow_left.png" class="img-responsive pull-left" style="width: 30%; position: relative;" /></a>
-            <a href="#" data-command="right"><img src="~/Content/Images/arrow_right.png" class="img-responsive pull-left" style="width: 30%; position: relative; left: 18%;" /></a>
-            <a href="#" data-command="backward"><img src="~/Content/Images/arrow_down.png" class="img-responsive" style="width: 30%; position: relative; left: -36%; top: 20%;" /></a>
-            <a href="#" data-command="fire"><img src="~/Content/Images/engine.png" class="img-responsive" style="width: 30%; position: relative; top: 0%; left: 54%" /></a>
-        </div>
-        <div id="sensors">
-            <br />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Sensor</th>
-                        <th>Waarde</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Sensor 1</td>
-                        <td>Waarde 1</td>
-                    </tr>
-                    <tr>
-                        <td>Sensor 2</td>
-                        <td>Waarde 2</td>
-                    </tr>
-                    <tr>
-                        <td>Sensor 3</td>
-                        <td>Waarde 3</td>
-                    </tr>
-                    <tr>
-                        <td>Sensor 4</td>
-                        <td>Waarde 4</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<style>
+    html, body { height: 100%; width: 100%; margin: 0; }
+    .container { height: 100%; width: 100%; }
+    #controls { height: 100%; width: 50%; }
+    #sensors { height: 100%; width: 45%; }
+</style>
+
+<div class="container">
+    <div id="controls" class="pull-right">
+        <a href="#" data-command="forward"><img src="~/Content/Images/arrow_up.png" class="img-responsive" style="width: 30%; position: relative; left: 24%; top: 5%;" /></a>
+        <a href="#" data-command="left"><img src="~/Content/Images/arrow_left.png" class="img-responsive pull-left" style="width: 30%; position: relative;" /></a>
+        <a href="#" data-command="right"><img src="~/Content/Images/arrow_right.png" class="img-responsive pull-left" style="width: 30%; position: relative; left: 18%;" /></a>
+        <a href="#" data-command="backward"><img src="~/Content/Images/arrow_down.png" class="img-responsive" style="width: 30%; position: relative; left: -36%; top: 20%;" /></a>
+        <a href="#" data-command="fire"><img src="~/Content/Images/engine.png" class="img-responsive" style="width: 30%; position: relative; top: 0%; left: 54%" /></a>
     </div>
-</body>
-</html>
+    <div id="sensors">
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sensor</th>
+                    <th>Waarde</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sensor 1</td>
+                    <td>Waarde 1</td>
+                </tr>
+                <tr>
+                    <td>Sensor 2</td>
+                    <td>Waarde 2</td>
+                </tr>
+                <tr>
+                    <td>Sensor 3</td>
+                    <td>Waarde 3</td>
+                </tr>
+                <tr>
+                    <td>Sensor 4</td>
+                    <td>Waarde 4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 @section scripts
@@ -62,14 +58,12 @@
 
         $.ajax({
             cache: false,
-            url: 'http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?',
+            url: 'http://test.henkmollema.nl/robot/all',
+            dataType: 'jsonp',
             success: function (data) {
-                var output = "";
-                for (var i in data.contents) {
-                    output += "<li role='presentation'><a href='#' data-id='" + data.contents[i] + "' role='menuitem'>" + "Robot " + data.contents[i] + "</a></li>";
+                for (var i in data) {
+                    $('#robots').append("<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>");
                 }
-
-                document.getElementById("robots").innerHTML = output;
             }
         });
 
