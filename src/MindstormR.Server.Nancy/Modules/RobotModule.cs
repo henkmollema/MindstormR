@@ -8,7 +8,7 @@ namespace MindstormR.Client.Nancy
     public class RobotModule : NancyModule
     {
         private static List<int> _clients = new List<int>();
-        private static Dictionary<int, Stack<Command>> _commands = new Dictionary<int, Stack<Command>>();
+        private static Dictionary<int, Queue<Command>> _commands = new Dictionary<int, Queue<Command>>();
         private static int _id = 1000;
 
         public RobotModule()
@@ -32,7 +32,7 @@ namespace MindstormR.Client.Nancy
         {
             int id = _id++;
             _clients.Add(id);
-            _commands.Add(id, new Stack<Command>());
+            _commands.Add(id, new Queue<Command>());
             return id.ToString();
         }
 
@@ -51,10 +51,10 @@ namespace MindstormR.Client.Nancy
         private dynamic PushCommand(int id, Command command)
         {
             // Push a command on the stack of the robot with the specified id.
-            Stack<Command> commands;
+            Queue<Command> commands;
             if (_commands.TryGetValue(id, out commands))
             {
-                commands.Push(command);
+                commands.Enqueue(command);
                 return true.ToString();
             }
 
@@ -64,12 +64,12 @@ namespace MindstormR.Client.Nancy
         private dynamic PopCommand(dynamic parameters)
         {
             // Pop the last command from the stack of the robot with the specified id.
-            Stack<Command> commands;
+            Queue<Command> commands;
             if (_commands.TryGetValue(parameters.id, out commands))
             {
                 if (commands.Count > 0)
                 {
-                    string s = commands.Pop().ToString();
+                    string s = commands.Dequeue().ToString();
                     return s;
                 }
             }
