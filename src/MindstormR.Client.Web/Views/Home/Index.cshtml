@@ -60,13 +60,17 @@
 
         var robotId = -1;
 
-        $.getJSON('http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?', function (data) {
-            var output = "";
-            for (var i in data.contents) {
-                output += "<li role='presentation'><a href='#' data-id='" + data.contents[i] + "' role='menuitem'>" + "Robot " + data.contents[i] + "</a></li>";
-            }
+        $.ajax({
+            cache: false,
+            url: 'http://anyorigin.com/dev/get?url=http%3A//test.henkmollema.nl/robot/all&callback=?',
+            success: function (data) {
+                var output = "";
+                for (var i in data.contents) {
+                    output += "<li role='presentation'><a href='#' data-id='" + data.contents[i] + "' role='menuitem'>" + "Robot " + data.contents[i] + "</a></li>";
+                }
 
-            document.getElementById("robots").innerHTML = output;
+                document.getElementById("robots").innerHTML = output;
+            }
         });
 
         $(function () {
