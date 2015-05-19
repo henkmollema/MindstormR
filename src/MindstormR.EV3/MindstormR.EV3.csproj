@@ -48,5 +48,9 @@
       <Project>{3F059D54-6030-4511-89A3-220D92F79709}</Project>
       <Name>MindstormR.MonoBrick.Firmware</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MindstormR.Core\MindstormR.Core.csproj">
+      <Project>{4A1D9087-A511-4CAD-BE1F-61FC5E0C4389}</Project>
+      <Name>MindstormR.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
