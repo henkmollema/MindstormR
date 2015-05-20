@@ -71,7 +71,12 @@
             $('#robots').on('click', 'a', function () {
                 robotId = $(this).data("id");
                 document.getElementById("dropdown-title").childNodes[0].nodeValue = "Robot " + robotId;
+                $('#logout').show();
             });
+
+            if (robotId == -1) {
+                $('#logout').hide();
+            }
         });
 
         $(function () {
@@ -90,6 +95,15 @@
                         if (result.success) {
                         }
                     });
+            });
+        });
+
+        $(function logout() {
+            $('#logout').on('click', 'a', function () {
+                $.get("http://test.henkmollema.nl/robot/" + robotId + "/logout");
+                window.alert("Robot " + robotId + " is uitgelogd");
+                robotId = -1;
+                location.reload(true);
             });
         });
 </script>
