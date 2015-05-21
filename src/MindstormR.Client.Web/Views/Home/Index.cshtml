@@ -56,22 +56,31 @@
 
         var robotId = -1;
         $('#logout').hide();
+        CreateDropdown();
 
-        $(function CreateDropdown() {
+        window.setInterval(function () {
+            CreateDropdown();
+        }, 5000);
+
+
+
+        function CreateDropdown() {
+            var dropdownItems = "";
             $.ajax({
                 cache: false,
                 url: 'http://test.henkmollema.nl/robot/all',
                 dataType: 'jsonp',
                 success: function (data) {
                     for (var i in data) {
-                        $('#robots').append("<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>");
+                        dropdownItems += "<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>";
                     }
                     if (data[0] == null) {
-                        $('#robots').append("<li role='presentation' class='disabled'><a role='menuitem'>Er zijn geen robots online</a></li>")
+                        dropdownItems += "<li role='presentation' class='disabled'><a role='menuitem'>Er zijn geen robots online</a></li>";
                     }
+                    $('#robots').html(dropdownItems);
                 }
             });
-        });
+        };
 
         $(function SelectRobot() {
             $('#robots').on('click', 'a', function () {
