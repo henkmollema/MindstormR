@@ -29,11 +29,11 @@
             <tbody>
                 <tr>
                     <td>Sensor 1</td>
-                    <td>Waarde 1</td>
+                    <td id="sensor">Waarde 1</td>
                 </tr>
                 <tr>
                     <td>Sensor 2</td>
-                    <td>Waarde 2</td>
+                    <td id="sensor2">Waarde 2</td>
                 </tr>
                 <tr>
                     <td>Sensor 3</td>
@@ -56,18 +56,20 @@
 
         var robotId = -1;
 
-        $.ajax({
-            cache: false,
-            url: 'http://test.henkmollema.nl/robot/all',
-            dataType: 'jsonp',
-            success: function (data) {
-                for (var i in data) {
-                    $('#robots').append("<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>");
+        $(function CreateDropdown() {
+            $.ajax({
+                cache: false,
+                url: 'http://test.henkmollema.nl/robot/all',
+                dataType: 'jsonp',
+                success: function (data) {
+                    for (var i in data) {
+                        $('#robots').append("<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>");
+                    }
                 }
-            }
+            });
         });
 
-        $(function () {
+        $(function SelectRobot() {
             $('#robots').on('click', 'a', function () {
                 robotId = $(this).data("id");
                 document.getElementById("dropdown-title").childNodes[0].nodeValue = "Robot " + robotId;
@@ -79,7 +81,7 @@
             }
         });
 
-        $(function () {
+        $(function Control() {
             $('#controls').on('click', 'a', function () {
                 var command = $(this).data("command");
                 if (robotId == -1) {
@@ -98,12 +100,11 @@
             });
         });
 
-        $(function logout() {
+        $(function Logout() {
             $('#logout').on('click', 'a', function () {
                 $.get("http://test.henkmollema.nl/robot/" + robotId + "/logout");
-                window.alert("Robot " + robotId + " is uitgelogd");
                 robotId = -1;
-                location.reload(true);
+                setTimeout(function () { location.reload(true) }, 300);
             });
         });
 </script>
