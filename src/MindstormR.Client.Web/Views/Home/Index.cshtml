@@ -65,56 +65,49 @@
 
 
     function CreateDropdown() {
-        var dropdownItems = "";
         $.ajax({
             cache: false,
             url: 'http://test.henkmollema.nl/robot/all',
             dataType: 'jsonp',
             success: function (data) {
+                $('#robots').html("");
                 for (var i in data) {
-                    dropdownItems += "<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>";
+                    $('#robots').append("<li role='presentation'><a href='#' data-id='" + data[i] + "' role='menuitem'>" + "Robot " + data[i] + "</a></li>");
                 }
                 if (data[0] == null) {
-                    dropdownItems += "<li role='presentation' class='disabled'><a role='menuitem'>Er zijn geen robots online</a></li>";
+                    $('#robots').append("<li role='presentation' class='disabled'><a role='menuitem'>Er zijn geen robots online</a></li>");
                 }
-                $('#robots').html(dropdownItems);
             }
         });
     };
 
-    $(function SelectRobot() {
+    $(function () {
         $('#robots').on('click', 'a', function () {
             robotId = $(this).data("id");
             if (robotId == null) {
                 robotId = -1;
             }
             else {
-                document.getElementById("dropdown-title").childNodes[0].nodeValue = "Robot " + robotId;
+                $('#dropdown-title').html("Robot " + robotId);
                 $('#logout').show();
             }
         });
-    });
 
-    $(function Control() {
         $('#controls').on('click', 'a', function () {
             var command = $(this).data("command");
             if (robotId == -1) {
                 window.alert("Selecteer eerst een robot!");
             }
-            $.post(
+            else {
+                $.post(
                 '@Url.Action("ControlClick", "Home")',
                 {
                     'id': robotId,
                     'command': command
-                },
-                function (result) {
-                    if (result.success) {
-                    }
                 });
+            }
         });
-    });
 
-    $(function Logout() {
         $('#logout').on('click', 'a', function () {
             $.get("http://test.henkmollema.nl/robot/" + robotId + "/logout");
             robotId = -1;
