@@ -45,6 +45,7 @@ namespace MindstormR.Client.Nancy
 
         private dynamic Flush(dynamic parameters)
         {
+            _id = 1000;
             _commands.Clear();
             _clients.Clear();
             return true.ToString();
