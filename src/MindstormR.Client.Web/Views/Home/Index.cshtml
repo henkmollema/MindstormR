@@ -4,9 +4,9 @@
 
 <style>
     html, body { height: 100%; width: 100%; margin: 0; }
-    .container { height: 100%; width: 100%; }
-    #controls { height: 100%; width: 50%; }
-    #sensors { height: 100%; width: 45%; }
+    .container { height: 90%; width: 100%; }
+    #controls { height: 90%; width: 50%; }
+    #sensors { height: 90%; width: 45%; }
 </style>
 
 <div class="container">
@@ -93,8 +93,7 @@
             }
         });
 
-        $('#controls').on('click', 'a', function () {
-            var command = $(this).data('command');
+        function pushControl(command) {
             if (robotId == -1) {
                 window.alert('Selecteer eerst een robot!');
             }
@@ -106,6 +105,33 @@
                     'command': command
                 });
             }
+        }
+
+        $('#controls').on('click', 'a', function () {
+            var command = $(this).data('command');
+            pushControl(command);
+        });
+
+        $('html').keypress(function (event) {
+            switch(event.keyCode) {
+                case 37:
+                    pushControl('left');
+                    break;
+                case 38:
+                    pushControl('forward');
+                    break;
+                case 39:
+                    pushControl('right');
+                    break;
+                case 40:
+                    pushControl('backward');
+                    break;
+                case 0:
+                    if (event.charCode == 32) {
+                        pushControl('fire');
+                    }
+                    break;
+            } 
         });
 
         $('#logout').on('click', 'a', function () {
