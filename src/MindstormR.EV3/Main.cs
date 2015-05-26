@@ -13,19 +13,23 @@ namespace MonoBrickHelloWorld
 {
     class MainClass
     {
+        private const string baseUrl = "http://test.henkmollema.nl/robot/";
         private static int _id;
 
         public static void Main(string[] args)
         {
             try
             {
+                var terminateProgram = new ManualResetEvent(false);
                 bool running = true;
                 var buttons = new ButtonEvents();
 
-                // Quit when escape is pressed.
-                buttons.EscapePressed += () => running = false;
-
-                const string baseUrl = "http://test.henkmollema.nl/robot/";
+                buttons.EscapePressed += () =>
+                {
+                    // Quit when escape is pressed.
+                    running = false;
+                    terminateProgram.Set();
+                };
 
                 var sw = Stopwatch.StartNew();
                 var client = new WebClient();
@@ -42,6 +46,15 @@ namespace MonoBrickHelloWorld
 
                 var vehicle = new Vehicle(MotorPort.OutA, MotorPort.OutC);
                 var robot = new Robot(vehicle);
+
+                new Thread(() =>
+                    {
+                        while (running)
+                        {
+                            // todo: push sensor values.
+                            //client.DownloadData(string.Format("{0}/{1}/sensor/push/{2}/{3}", baseUrl, _id, 1, true));
+                        }
+                    }).Start();
 
                 while (running)
                 {
@@ -83,11 +96,14 @@ namespace MonoBrickHelloWorld
                     }
 
                     // todo: consider using signalr for this -> #18
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
                 }
 
+                vehicle.Off();
                 Info("Logging out...", false, "Robot " + _id);
                 client.DownloadString(baseUrl + _id + "/logout");
+                Info("Logged out", false, "Robot " + _id);
+                terminateProgram.WaitOne();
             }
             catch (Exception ex)
             {
