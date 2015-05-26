@@ -2,30 +2,36 @@
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using MindstormR.Core;
 using MonoBrickFirmware;
 using MonoBrickFirmware.Display;
 using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Movement;
 using MonoBrickFirmware.UserInput;
+using MonoBrickFirmware.Sensors;
 
 namespace MonoBrickHelloWorld
 {
     class MainClass
     {
+        private const string baseUrl = "http://test.henkmollema.nl/robot/";
         private static int _id;
 
         public static void Main(string[] args)
         {
             try
             {
+                var terminateProgram = new ManualResetEvent(false);
                 bool running = true;
                 var buttons = new ButtonEvents();
 
-                // Quit when escape is pressed.
-                buttons.EscapePressed += () => running = false;
-
-                const string baseUrl = "http://test.henkmollema.nl/robot/";
+                buttons.EscapePressed += () =>
+                {
+                    // Quit when escape is pressed.
+                    running = false;
+                    terminateProgram.Set();
+                };
 
                 var sw = Stopwatch.StartNew();
                 var client = new WebClient();
@@ -42,6 +48,7 @@ namespace MonoBrickHelloWorld
 
                 var vehicle = new Vehicle(MotorPort.OutA, MotorPort.OutC);
                 var robot = new Robot(vehicle);
+                var sensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
 
                 while (running)
                 {
@@ -49,7 +56,8 @@ namespace MonoBrickHelloWorld
                     string data = client.DownloadString(baseUrl + _id + "/command");
                     sw.Stop();
 
-                    Info("Command {2}: '{0}'. ({1:n2}ms)", false, "Robot " + _id, data, sw.Elapsed.TotalMilliseconds, _id);
+                    string color = sensor.ReadAsString();
+                    Info("'{0}'/'{1}' ({2:n2}ms)", false, "Robot " + _id, data, color, sw.Elapsed.TotalMilliseconds);
 
                     switch (data.ToLower())
                     {
@@ -83,15 +91,22 @@ namespace MonoBrickHelloWorld
                     }
 
                     // todo: consider using signalr for this -> #18
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
+
+                    client.DownloadData(string.Format("{0}/{1}/sensor/push/{2}/{3}", baseUrl, _id, "color", sensor.ReadAsString()));
+                    Thread.Sleep(250);
                 }
 
+                vehicle.Off();
                 Info("Logging out...", false, "Robot " + _id);
                 client.DownloadString(baseUrl + _id + "/logout");
+                Info("Logged out", false, "Robot " + _id);
+                terminateProgram.WaitOne();
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
+                new InfoDialog(ex.Message, true).Show();
             }
         }
 
