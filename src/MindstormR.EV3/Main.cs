@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using MindstormR.Core;
 using MonoBrickFirmware;
 using MonoBrickFirmware.Display;
 using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Movement;
 using MonoBrickFirmware.UserInput;
+using MonoBrickFirmware.Sensors;
 
 namespace MonoBrickHelloWorld
 {
@@ -46,15 +48,7 @@ namespace MonoBrickHelloWorld
 
                 var vehicle = new Vehicle(MotorPort.OutA, MotorPort.OutC);
                 var robot = new Robot(vehicle);
-
-                new Thread(() =>
-                    {
-                        while (running)
-                        {
-                            // todo: push sensor values.
-                            //client.DownloadData(string.Format("{0}/{1}/sensor/push/{2}/{3}", baseUrl, _id, 1, true));
-                        }
-                    }).Start();
+                var sensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
 
                 while (running)
                 {
@@ -62,7 +56,8 @@ namespace MonoBrickHelloWorld
                     string data = client.DownloadString(baseUrl + _id + "/command");
                     sw.Stop();
 
-                    Info("Command {2}: '{0}'. ({1:n2}ms)", false, "Robot " + _id, data, sw.Elapsed.TotalMilliseconds, _id);
+                    string color = sensor.ReadAsString();
+                    Info("'{0}'/'{1}' ({2:n2}ms)", false, "Robot " + _id, data, color, sw.Elapsed.TotalMilliseconds);
 
                     switch (data.ToLower())
                     {
@@ -97,6 +92,9 @@ namespace MonoBrickHelloWorld
 
                     // todo: consider using signalr for this -> #18
                     Thread.Sleep(250);
+
+                    client.DownloadData(string.Format("{0}/{1}/sensor/push/{2}/{3}", baseUrl, _id, "color", sensor.ReadAsString()));
+                    Thread.Sleep(250);
                 }
 
                 vehicle.Off();
@@ -108,6 +106,7 @@ namespace MonoBrickHelloWorld
             catch (Exception ex)
             {
                 string msg = ex.Message;
+                new InfoDialog(ex.Message, true).Show();
             }
         }
 
