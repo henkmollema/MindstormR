@@ -9,13 +9,13 @@
                 <thead>
                     <tr>
                         <th>Sensor</th>
-                        <th>Waarde</th>
+                        <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Sensor 1</td>
-                        <td>Waarde 1</td>
+                        <td>Color</td>
+                        <td id="colorSensor"></td>
                     </tr>
                     <tr>
                         <td>Sensor 2</td>
@@ -72,12 +72,15 @@
     var robotId = -1;
     $('#logout').hide();
     CreateDropdown();
+    colorSensor();
 
     window.setInterval(function () {
         CreateDropdown();
     }, 5000);
 
-
+    window.setInterval(function () {
+        colorSensor();
+    }, 100);
 
     function CreateDropdown() {
         $.ajax({
@@ -91,6 +94,20 @@
                 }
                 if (data[0] == null) {
                     $('#robots').append('<li role="presentation" class="disabled"><a role="menuitem">Er zijn geen robots online</a></li>');
+                }
+            }
+        });
+    };
+
+    function colorSensor() {
+        $.ajax({
+            cache: false,
+            url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensor/get/color',
+            dataType: 'jsonp',
+            success: function (data) {
+                $('#colorSensor').html('--');
+                if (data.color != null) {
+                    $('#colorSensor').html(data.color);
                 }
             }
         });
