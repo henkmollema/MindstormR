@@ -144,8 +144,8 @@
             pushControl(command);
         });
 
-        $('html').keypress(function (event) {
-            switch(event.keyCode) {
+        $('html').keyup(function (event) {
+            switch (event.keyCode) {
                 case 37:
                     pushControl('left');
                     break;
@@ -158,12 +158,10 @@
                 case 40:
                     pushControl('backward');
                     break;
-                case 0:
-                    if (event.charCode == 32) {
-                        pushControl('fire');
-                    }
+                case 32:
+                    pushControl('fire');
                     break;
-            } 
+            }
         });
 
         $('#logout').on('click', 'a', function () {
