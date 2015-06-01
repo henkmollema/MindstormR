@@ -7,12 +7,12 @@ namespace MindstormR.Client.Nancy
     public class RobotModule : NancyModule
     {
         private static List<int> _clients = new List<int>();
-        private static Dictionary<int, Queue<Command>> _commands = new Dictionary<int, Queue<Command>>();
+        private static Dictionary<int, Queue<string>> _commands = new Dictionary<int, Queue<string>>();
         private static Dictionary<int, Dictionary<string, object>> _sensors = new Dictionary<int, Dictionary<string, object>>();
         private static int _id = 1000;
 
         public RobotModule()
-            : base("robot")
+            : base(modulePath: "robot")
         {
             Get["/login"] = Login;
             Get["{id:int}/logout"] = Logout;
@@ -20,23 +20,19 @@ namespace MindstormR.Client.Nancy
 
             Get["all"] = GetRobots;
 
-            Get["{id:int}/forward"] = _ => PushCommand(_.id, Command.Forward);
-            Get["{id:int}/backward"] = _ => PushCommand(_.id, Command.Backward);
-            Get["{id:int}/left"] = _ => PushCommand(_.id, Command.Left);
-            Get["{id:int}/right"] = _ => PushCommand(_.id, Command.Right);
-            Get["{id:int}/fire"] = _ => PushCommand(_.id, Command.Fire);
+            Get["{id:int}/{command}"] = PushCommand;
 
             Get["{id:int}/command"] = GetCommand;
 
-            Get["{id:int}/sensors/get"] = GetSensorValue;
-            Get["{id:int}/sensors/push"] = PushSensorValue;
+            Get["{id:int}/sensors/get"] = GetSensorValues;
+            Get["{id:int}/sensors/push"] = PushSensorValues;
         }
 
         private dynamic Login(dynamic parameters)
         {
             int id = _id++;
             _clients.Add(id);
-            _commands.Add(id, new Queue<Command>());
+            _commands.Add(id, new Queue<string>());
             _sensors.Add(id, new Dictionary<string, object>());
             return id.ToString();
         }
@@ -62,13 +58,15 @@ namespace MindstormR.Client.Nancy
             return Response.AsJson(_clients.ToArray());
         }
 
-        private dynamic PushCommand(int id, Command command)
+        private dynamic PushCommand(dynamic parameters)
         {
+            int id = parameters.id;
+
             // Add a command to the queue of the robot with the specified id.
-            Queue<Command> commands;
+            Queue<string> commands;
             if (_commands.TryGetValue(id, out commands))
             {
-                commands.Enqueue(command);
+                commands.Enqueue(parameters.command);
                 return true.ToString();
             }
 
@@ -78,27 +76,29 @@ namespace MindstormR.Client.Nancy
         private dynamic GetCommand(dynamic parameters)
         {
             // Dequeue the last command from the queue of the robot with the specified id.
-            Queue<Command> commands;
+            Queue<string> commands;
             if (_commands.TryGetValue(parameters.id, out commands))
             {
                 if (commands.Count > 0)
                 {
-                    string s = commands.Dequeue().ToString();
-                    return s;
+                    return commands.Dequeue().ToString();
                 }
             }
             return false.ToString();
         }
 
-        private dynamic GetSensorValue(dynamic parameters)
+        private dynamic GetSensorValues(dynamic parameters)
         {
+            // Serialize dictionary with commands to JSON.
             var data = _sensors[parameters.id];
             return Response.AsJson(new { data });
         }
 
-        private dynamic PushSensorValue(dynamic parameters)
+        private dynamic PushSensorValues(dynamic parameters)
         {
             int id = parameters.id;
+
+            // Parse sensor values from query string params.
             dynamic q = Request.Query;
             _sensors[id]["color"] = q["color"];
             _sensors[id]["gyro"] = q["gyro"];
