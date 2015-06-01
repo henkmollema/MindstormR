@@ -48,7 +48,11 @@ namespace MonoBrickHelloWorld
 
                 var vehicle = new Vehicle(MotorPort.OutA, MotorPort.OutC);
                 var robot = new Robot(vehicle);
-                var sensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
+
+                var touchSensor = new EV3TouchSensor(SensorPort.In1);
+                var gyroSensor = new EV3GyroSensor(SensorPort.In2, GyroMode.Angle);
+                var colorSensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
+                var irSensor = new EV3IRSensor(SensorPort.In4, IRMode.Proximity);
 
                 while (running)
                 {
@@ -56,8 +60,7 @@ namespace MonoBrickHelloWorld
                     string data = client.DownloadString(baseUrl + _id + "/command");
                     sw.Stop();
 
-                    string color = sensor.ReadAsString();
-                    Info("'{0}'/'{1}' ({2:n2}ms)", false, "Robot " + _id, data, color, sw.Elapsed.TotalMilliseconds);
+                    Info("Command: '{0}' ({2:n2}ms)", false, "Robot " + _id, data, sw.Elapsed.TotalMilliseconds);
 
                     switch (data.ToLower())
                     {
@@ -93,7 +96,13 @@ namespace MonoBrickHelloWorld
                     // todo: consider using signalr for this -> #18
                     Thread.Sleep(250);
 
-                    client.DownloadData(string.Format("{0}/{1}/sensor/push/{2}/{3}", baseUrl, _id, "color", sensor.ReadAsString()));
+                    client.DownloadData(string.Format("{0}/{1}/sensors/push?touch={2}&gyro={3}&color={4}&ir={5}", 
+                            baseUrl, 
+                            _id,
+                            touchSensor.ReadAsString(),
+                            gyroSensor.ReadAsString(),
+                            colorSensor.ReadAsString(),
+                            irSensor.ReadAsString()));
                     Thread.Sleep(250);
                 }
 
