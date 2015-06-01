@@ -96,7 +96,7 @@ namespace MindstormR.Client.Nancy
             object value;
             if (data.TryGetValue(parameters.sensor, out value))
             {
-                return value;
+                return Response.AsJson(new { value = value });
             }
 
             return null;
