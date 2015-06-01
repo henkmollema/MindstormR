@@ -28,8 +28,8 @@ namespace MindstormR.Client.Nancy
 
             Get["{id:int}/command"] = GetCommand;
 
-            Get["{id:int}/sensor/get/{sensor}"] = GetSensorValue;
-            Get["{id:int}/sensor/push/{sensor}/{value}"] = PushSensorValue;
+            Get["{id:int}/sensors/get"] = GetSensorValue;
+            Get["{id:int}/sensors/push"] = PushSensorValue;
         }
 
         private dynamic Login(dynamic parameters)
@@ -93,18 +93,17 @@ namespace MindstormR.Client.Nancy
         private dynamic GetSensorValue(dynamic parameters)
         {
             var data = _sensors[parameters.id];
-            object value;
-            if (data.TryGetValue(parameters.sensor, out value))
-            {
-                return Response.AsJson(new { value = value });
-            }
-
-            return null;
+            return Response.AsJson(new { data });
         }
 
         private dynamic PushSensorValue(dynamic parameters)
         {
-            _sensors[parameters.id][parameters.sensor] = parameters.value;
+            int id = parameters.id;
+            dynamic q = Request.Query;
+            _sensors[id]["color"] = q["color"];
+            _sensors[id]["gyro"] = q["gyro"];
+            _sensors[id]["color"] = q["color"];
+            _sensors[id]["ir"] = q["ir"];
             return true.ToString();
         }
     }
