@@ -181,8 +181,7 @@
 
         function pushControl(command) {
             if (robotId == -1) {
-				document.getElementById('error').innerHTML = "<div class="alert alert-danger" role="alert">Selecteer eerst een robot!</div>";				
-                //window.alert('Selecteer eerst een robot!');
+				document.getElementById('error').innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">Selecteer eerst een robot!</div>";	                
             }
             else {
                 $.get('http://test.henkmollema.nl/robot/'+robotId+'/'+command);
