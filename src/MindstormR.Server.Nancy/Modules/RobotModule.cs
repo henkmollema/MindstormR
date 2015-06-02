@@ -100,7 +100,7 @@ namespace MindstormR.Client.Nancy
 
             // Parse sensor values from query string params.
             dynamic q = Request.Query;
-            _sensors[id]["color"] = q["color"];
+            _sensors[id]["touch"] = q["touch"];
             _sensors[id]["gyro"] = q["gyro"];
             _sensors[id]["color"] = q["color"];
             _sensors[id]["ir"] = q["ir"];
