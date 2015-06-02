@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <!-- Set the viewport. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Allow web app to be run in full-screen mode. -->
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+ 
+    <!-- Configure the status bar. -->
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black">
+
+    <title>P4P</title>
+    <script src="Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="Scripts/bootstrap.js" type="text/javascript"></script>
+    <script src="Scripts/modernizr-2.6.2.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="Content/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="Content/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="Content/site.css">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="index.html" class="navbar-brand">MindstormR Controller</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" id="dropdown-title">Robot <b class="caret"></b></a>
+                        <ul class="dropdown-menu" id="robots">
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="logout">
+                        <p class="navbar-text">
+                            <a class="navbar-link" href="#">Logout</a>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="container-fluid">
+    <div class="row">
+        <div id="sensors" class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sensor</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Color</td>
+                        <td id="colorSensor">--</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor 2</td>
+                        <td>Waarde 2</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor 3</td>
+                        <td>Waarde 3</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor 4</td>
+                        <td>Waarde 4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="controls" class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 col-xs-4"></div>
+                <div class="col-md-4 col-xs-4">
+                    <a href="#" data-command="forward"><img src="Content/Images/arrow_up.png" class="img-responsive"></a>
+                </div>
+                <div class="col-md-4 col-xs-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xs-4">
+                    <a href="#" data-command="left"><img src="Content/Images/arrow_left.png" class="img-responsive"></a>
+                </div>
+                <div class="col-md-4 col-xs-4"></div>
+                <div class="col-md-4 col-xs-4">
+                    <a href="#" data-command="right"><img src="Content/Images/arrow_right.png" class="img-responsive"></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xs-4"></div>
+                <div class="col-md-4 col-xs-4">
+                    <a href="#" data-command="backward"><img src="Content/Images/arrow_down.png" class="img-responsive"></a>
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    <a href="#" data-command="fire"><img src="Content/Images/engine.png" class="img-responsive"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var robotId = -1;
+    $('#logout').hide();
+    CreateDropdown();
+    colorSensor();
+
+    window.setInterval(function () {
+        CreateDropdown();
+    }, 5000);
+
+    window.setInterval(function () {
+        colorSensor();
+    }, 100);
+
+    function CreateDropdown() {
+        $.ajax({
+            cache: false,
+            url: 'http://test.henkmollema.nl/robot/all',
+            dataType: 'jsonp',
+            success: function (data) {
+                $('footer').html('&copy; ' + new Date().getFullYear() + ' MindstormR');
+                $('#robots').html('');
+                for (var i in data) {
+                    $('#robots').append('<li role="presentation"><a href="#" data-id="' + data[i] + '" role="menuitem">' + 'Robot ' + data[i] + '</a></li>');
+                }
+                if (data[0] == null) {
+                    $('#robots').append('<li role="presentation" class="disabled"><a role="menuitem">Er zijn geen robots online</a></li>');
+                }
+            }
+        });
+    };
+
+    function colorSensor() {
+        $.ajax({
+            cache: false,
+            url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensor/get/color',
+            dataType: 'jsonp',
+            success: function (data) {
+                $('#colorSensor').html('--');
+                if (data.color != null) {
+                    $('#colorSensor').html(data.color);
+                }
+            }
+        });
+    };
+
+    $(function () {
+        $('#robots').on('click', 'a', function () {
+            robotId = $(this).data('id');
+            if (robotId == null) {
+                robotId = -1;
+            }
+            else {
+                $('#dropdown-title').html('Robot ' + robotId);
+                $('#logout').show();
+            }
+        });
+
+        function pushControl(command) {
+            if (robotId == -1) {
+                window.alert('Selecteer eerst een robot!');
+            }
+            else {
+                $.get('http://test.henkmollema.nl/robot/'+robotId+'/'+command);
+            }
+        }
+
+        $('#controls').on('click', 'a', function () {
+            var command = $(this).data('command');
+            pushControl(command);
+        });
+
+        $('html').keyup(function (event) {
+            switch(event.keyCode) {
+                case 37:
+                    pushControl('left');
+                    break;
+                case 38:
+                    pushControl('forward');
+                    break;
+                case 39:
+                    pushControl('right');
+                    break;
+                case 40:
+                    pushControl('backward');
+                    break;
+                case 32:
+                    pushControl('fire');
+                    break;
+            } 
+        });
+
+        $('#logout').on('click', 'a', function () {
+            $.get('http://test.henkmollema.nl/robot/' + robotId + '/logout');
+            robotId = -1;
+            setTimeout(function () { location.reload(true) }, 300);
+        });
+    });
+</script>
+        <hr />
+        <footer>
+            <p id="footer"></p>
+        </footer>
+    </div>
+</body>
+</html>
