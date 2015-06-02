@@ -10,6 +10,7 @@ using MonoBrickFirmware.Display.Dialogs;
 using MonoBrickFirmware.Movement;
 using MonoBrickFirmware.UserInput;
 using MonoBrickFirmware.Sensors;
+using MonoBrickFirmware.Management;
 
 namespace MonoBrickHelloWorld
 {
@@ -53,6 +54,7 @@ namespace MonoBrickHelloWorld
                 var gyroSensor = new EV3GyroSensor(SensorPort.In2, GyroMode.Angle);
                 var colorSensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
                 var irSensor = new EV3IRSensor(SensorPort.In4, IRMode.Proximity);
+				var battery = Battery.Current;
 
                 while (running)
                 {
@@ -96,13 +98,14 @@ namespace MonoBrickHelloWorld
                     // todo: consider using signalr for this -> #18
                     Thread.Sleep(250);
 
-                    client.DownloadData(string.Format("{0}/{1}/sensors/push?touch={2}&gyro={3}&color={4}&ir={5}", 
+					client.DownloadData(string.Format("{0}/{1}/sensors/push?touch={2}&gyro={3}&color={4}&ir={5}&battery={6}", 
                             baseUrl, 
                             _id,
                             touchSensor.ReadAsString(),
                             gyroSensor.ReadAsString(),
                             colorSensor.ReadAsString(),
-                            irSensor.ReadAsString()));
+                            irSensor.ReadAsString(),
+							battery.ReadAsString()));							
                     Thread.Sleep(250);
                 }
 
