@@ -69,16 +69,12 @@
                         <td id="colorSensor">--</td>
                     </tr>
                     <tr>
-                        <td>Sensor 2</td>
-                        <td>Waarde 2</td>
+                        <td>Gyro</td>
+                        <td id="gyroSensor">--</td>
                     </tr>
                     <tr>
-                        <td>Sensor 3</td>
-                        <td>Waarde 3</td>
-                    </tr>
-                    <tr>
-                        <td>Sensor 4</td>
-                        <td>Waarde 4</td>
+                        <td>Ir</td>
+                        <td id="irSensor">--</td>
                     </tr>
                 </tbody>
             </table>
@@ -151,12 +147,14 @@
     function colorSensor() {
         $.ajax({
             cache: false,
-            url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensor/get/color',
+            url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensors/get',
             dataType: 'jsonp',
             success: function (data) {
                 $('#colorSensor').html('--');
-                if (data.color != null) {
-                    $('#colorSensor').html(data.color);
+                if (data.data != null) {
+                    $('#colorSensor').html(data.data.color);
+                    $('#gyroSensor').html(data.data.gyro);
+                    $('#irSensor').html(data.data.ir);
                 }
             }
         });
