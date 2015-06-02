@@ -53,67 +53,68 @@
         </div>
     </div>
     <div class="container body-content">
-        <div class="container-fluid">
-		<div id="error"></div>
-    <div class="row">
-        <div id="sensors" class="col-md-6">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Sensor</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Color</td>
-                        <td id="colorSensor">--</td>
-                    </tr>
-                    <tr>
-                        <td>Gyro</td>
-                        <td id="gyroSensor">--</td>
-                    </tr>
-                    <tr>
-                        <td>Ir</td>
-                        <td id="irSensor">--</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="container">
+            <div class="row">
+                <div id="selectRobotAlert" role="alert"></div>
+                <div id="sensors" class="col-md-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sensor</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Color</td>
+                                <td id="colorSensor">--</td>
+                            </tr>
+                            <tr>
+                                <td>Gyro</td>
+                                <td id="gyroSensor">--</td>
+                            </tr>
+                            <tr>
+                                <td>Ir</td>
+                                <td id="irSensor">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <div id="controls" class="col-md-6">
-            <div class="row">
-                <div class="col-md-4 col-xs-4"></div>
-                <div class="col-md-4 col-xs-4">
-                    <a href="#" data-command="forward"><img src="Content/Images/arrow_up.png" class="img-responsive"></a>
-                </div>
-                <div class="col-md-4 col-xs-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-xs-4">
-                    <a href="#" data-command="left"><img src="Content/Images/arrow_left.png" class="img-responsive"></a>
-                </div>
-                <div class="col-md-4 col-xs-4"></div>
-                <div class="col-md-4 col-xs-4">
-                    <a href="#" data-command="right"><img src="Content/Images/arrow_right.png" class="img-responsive"></a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-xs-4"></div>
-                <div class="col-md-4 col-xs-4">
-                    <a href="#" data-command="backward"><img src="Content/Images/arrow_down.png" class="img-responsive"></a>
-                </div>
-                <div class="col-md-4 col-xs-4">
-                    <a href="#" data-command="fire"><img src="Content/Images/engine.png" class="img-responsive"></a>
+                <div id="controls" class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4"></div>
+                        <div class="col-md-4 col-xs-4">
+                            <a href="#" data-command="forward"><img src="Content/Images/arrow_up.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-4 col-xs-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4">
+                            <a href="#" data-command="left"><img src="Content/Images/arrow_left.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-4 col-xs-4"></div>
+                        <div class="col-md-4 col-xs-4">
+                            <a href="#" data-command="right"><img src="Content/Images/arrow_right.png" class="img-responsive"></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4"></div>
+                        <div class="col-md-4 col-xs-4">
+                            <a href="#" data-command="backward"><img src="Content/Images/arrow_down.png" class="img-responsive"></a>
+                        </div>
+                        <div class="col-md-4 col-xs-4">
+                            <a href="#" data-command="fire"><img src="Content/Images/engine.png" class="img-responsive"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<hr />
+    <hr />
     <footer class="footer">
         <p id="footer"></p>
     </footer>
+</div>
 
 
 <script type="text/javascript">
@@ -181,7 +182,7 @@
 
         function pushControl(command) {
             if (robotId == -1) {
-				document.getElementById('error').innerHTML = "<div class=\"alert alert-danger\" role=\"alert\">Selecteer eerst een robot!</div>";	                
+                $('#selectRobotAlert').addClass('alert alert-danger').html('Selecteer eerst een robot!');           
             }
             else {
                 $.get('http://test.henkmollema.nl/robot/'+robotId+'/'+command);
