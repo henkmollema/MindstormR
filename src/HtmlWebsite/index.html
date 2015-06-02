@@ -116,14 +116,14 @@
     var robotId = -1;
     $('#logout').hide();
     CreateDropdown();
-    colorSensor();
+    updateSensors();
 
     window.setInterval(function () {
         CreateDropdown();
     }, 5000);
 
     window.setInterval(function () {
-        colorSensor();
+        updateSensors();
     }, 100);
 
     function CreateDropdown() {
@@ -144,13 +144,15 @@
         });
     };
 
-    function colorSensor() {
+    function updateSensors() {
         $.ajax({
             cache: false,
             url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensors/get',
             dataType: 'jsonp',
             success: function (data) {
                 $('#colorSensor').html('--');
+                $('#gyroSensor').html('--');
+                $('#irSensor').html('--');
                 if (data.data != null) {
                     $('#colorSensor').html(data.data.color);
                     $('#gyroSensor').html(data.data.gyro);
