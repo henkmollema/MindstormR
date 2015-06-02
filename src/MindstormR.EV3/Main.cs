@@ -54,7 +54,6 @@ namespace MonoBrickHelloWorld
                 var gyroSensor = new EV3GyroSensor(SensorPort.In2, GyroMode.Angle);
                 var colorSensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
                 var irSensor = new EV3IRSensor(SensorPort.In4, IRMode.Proximity);
-				var battery = Battery.Current;
 
                 while (running)
                 {
@@ -105,7 +104,7 @@ namespace MonoBrickHelloWorld
                             gyroSensor.ReadAsString(),
                             colorSensor.ReadAsString(),
                             irSensor.ReadAsString(),
-							battery.ReadAsString()));							
+						    Battery.Current));							
                     Thread.Sleep(250);
                 }
 
