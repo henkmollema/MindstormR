@@ -54,6 +54,7 @@
     </div>
     <div class="container body-content">
         <div class="container-fluid">
+		<div id="error"></div>
     <div class="row">
         <div id="sensors" class="col-md-6">
             <table class="table">
@@ -180,7 +181,8 @@
 
         function pushControl(command) {
             if (robotId == -1) {
-                window.alert('Selecteer eerst een robot!');
+				document.getElementById('error').innerHTML = "<div class="alert alert-danger" role="alert">Selecteer eerst een robot!</div>";				
+                //window.alert('Selecteer eerst een robot!');
             }
             else {
                 $.get('http://test.henkmollema.nl/robot/'+robotId+'/'+command);
