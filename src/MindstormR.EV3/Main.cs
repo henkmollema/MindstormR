@@ -58,12 +58,22 @@ namespace MonoBrickHelloWorld
                 while (running)
                 {
                     sw.Restart();
-                    string data = client.DownloadString(baseUrl + _id + "/command");
+
+                    // Get the new command and push the sensor data in one go.
+                    string command = client.DownloadString(
+                                         string.Format("{0}/{1}/command?touch={2}&gyro={3}&color={4}&ir={5}&battery={6}", 
+                                             baseUrl, 
+                                             _id,
+                                             touchSensor.ReadAsString(),
+                                             gyroSensor.ReadAsString(),
+                                             colorSensor.ReadAsString(),
+                                             irSensor.ReadAsString(),
+                                             (int)(Battery.Current * 1000)));
                     sw.Stop();
 
-                    Info("Command: '{0}' ({2:n2}ms)", false, "Robot " + _id, data, sw.Elapsed.TotalMilliseconds);
+                    Info("Command: '{0}' ({1:n2}ms)", false, "Robot " + _id, command, sw.Elapsed.TotalMilliseconds);
 
-                    switch (data.ToLower())
+                    switch (command.ToLower())
                     {
                         case "fire":
                             // todo: fire a single shot.
@@ -95,16 +105,6 @@ namespace MonoBrickHelloWorld
                     }
 
                     // todo: consider using signalr for this -> #18
-                    Thread.Sleep(250);
-
-					client.DownloadData(string.Format("{0}/{1}/sensors/push?touch={2}&gyro={3}&color={4}&ir={5}&battery={6}", 
-                            baseUrl, 
-                            _id,
-                            touchSensor.ReadAsString(),
-                            gyroSensor.ReadAsString(),
-                            colorSensor.ReadAsString(),
-                            irSensor.ReadAsString(),
-						    Battery.Current));							
                     Thread.Sleep(250);
                 }
 
