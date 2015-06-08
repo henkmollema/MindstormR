@@ -43,6 +43,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <p class="navbar-text" id="battery"></p>
+                    </li>
                     <li id="logout">
                         <p class="navbar-text">
                             <a class="navbar-link" href="#">Logout</a>
@@ -65,6 +68,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td>Touch</td>
+                                <td id="touchSensor">--</td>
+                            </tr>
                             <tr>
                                 <td>Color</td>
                                 <td id="colorSensor">--</td>
@@ -156,14 +163,20 @@
             url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensors/get',
             dataType: 'jsonp',
             success: function (data) {
-                $('#colorSensor').html('--');
-                $('#gyroSensor').html('--');
-                $('#irSensor').html('--');
-                if (data.data != null) {
-                    $('#colorSensor').html(data.data.color);
-                    $('#gyroSensor').html(data.data.gyro);
-                    $('#irSensor').html(data.data.ir);
-                }
+                if ($.isEmptyObject(data.data)) {
+                    $('#touchSensor').html('--');
+                    $('#colorSensor').html('--');
+                    $('#gyroSensor').html('--');
+                    $('#irSensor').html('--');
+                    $('#battery').html('Battery: --');
+                 }
+                 else {
+                     $('#touchSensor').html(data.data.touch);
+                     $('#colorSensor').html(data.data.color);
+                     $('#gyroSensor').html(data.data.gyro);
+                     $('#irSensor').html(data.data.ir);
+                     $('#battery').html('Battery: ' + data.data.battery + '%');
+                 }
             }
         });
     };
