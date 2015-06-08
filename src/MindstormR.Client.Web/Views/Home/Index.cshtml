@@ -14,6 +14,10 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>Touch</td>
+                        <td id="touchSensor">--</td>
+                    </tr>
+                    <tr>
                         <td>Color</td>
                         <td id="colorSensor">--</td>
                     </tr>
@@ -101,14 +105,18 @@
             url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensors/get',
             dataType: 'jsonp',
             success: function (data) {
-                $('#colorSensor').html('--');
-                $('#gyroSensor').html('--');
-                $('#irSensor').html('--');
-                if (data.data != null) {
-                    $('#colorSensor').html(data.data.color);
-                    $('#gyroSensor').html(data.data.gyro);
-                    $('#irSensor').html(data.data.ir);
-                }
+                 if (jQuery.isEmptyObject(data.data)) {
+                    $('#touchSensor').hmtl('--');
+                    $('#colorSensor').html('--');
+                    $('#gyroSensor').html('--');
+                    $('#irSensor').html('--');
+                 }
+                 else {
+                     $('#touchSensor').html(data.data.touch);
+                     $('#colorSensor').html(data.data.color);
+                     $('#gyroSensor').html(data.data.gyro);
+                     $('#irSensor').html(data.data.ir);
+                 }
             }
         });
     };
