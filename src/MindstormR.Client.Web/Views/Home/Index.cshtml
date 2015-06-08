@@ -105,8 +105,8 @@
             url: 'http://test.henkmollema.nl/robot/' + robotId + '/sensors/get',
             dataType: 'jsonp',
             success: function (data) {
-                 if (jQuery.isEmptyObject(data.data)) {
-                    $('#touchSensor').hmtl('--');
+                if ($.isEmptyObject(data.data)) {
+                    $('#touchSensor').html('--');
                     $('#colorSensor').html('--');
                     $('#gyroSensor').html('--');
                     $('#irSensor').html('--');
