@@ -16,7 +16,7 @@ namespace MonoBrickHelloWorld
 {
     class MainClass
     {
-        private const string baseUrl = "http://test.henkmollema.nl/robot/";
+        private const string BaseUrl = "http://test.henkmollema.nl/robot/";
         private static int _id;
 
         public static void Main(string[] args)
@@ -36,7 +36,7 @@ namespace MonoBrickHelloWorld
 
                 var sw = Stopwatch.StartNew();
                 var client = new WebClient();
-                string s = client.DownloadString(baseUrl + "login");
+                string s = client.DownloadString(BaseUrl + "login");
                 sw.Stop();
 
                 if (!int.TryParse(s, out _id))
@@ -62,13 +62,13 @@ namespace MonoBrickHelloWorld
                     // Get the new command and push the sensor data in one go.
                     string command = client.DownloadString(
                                          string.Format("{0}/{1}/command?touch={2}&gyro={3}&color={4}&ir={5}&battery={6}", 
-                                             baseUrl, 
+                                             BaseUrl, 
                                              _id,
                                              touchSensor.ReadAsString(),
                                              gyroSensor.ReadAsString(),
                                              colorSensor.ReadAsString(),
                                              irSensor.ReadAsString(),
-                                             (int)(Battery.Current * 1000)));
+                                             (int)(Battery.Current * 100)));
                     sw.Stop();
 
                     Info("Command: '{0}' ({1:n2}ms)", false, "Robot " + _id, command, sw.Elapsed.TotalMilliseconds);
@@ -101,12 +101,12 @@ namespace MonoBrickHelloWorld
                     }
 
                     // todo: consider using signalr for this -> #18
-                    Thread.Sleep(250);
+                    Thread.Sleep(100);
                 }
 
                 vehicle.Off();
                 Info("Logging out...", false, "Robot " + _id);
-                client.DownloadString(baseUrl + _id + "/logout");
+                client.DownloadString(BaseUrl + _id + "/logout");
                 Info("Logged out", false, "Robot " + _id);
                 terminateProgram.WaitOne();
             }
