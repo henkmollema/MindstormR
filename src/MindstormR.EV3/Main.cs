@@ -85,22 +85,18 @@ namespace MonoBrickHelloWorld
 
                         case "forward":
                             robot.Move(Movement.Forward);
-                            LcdConsole.WriteLine("Speed: {0}", robot.Speed);
                             break;
 
                         case "backward":
                             robot.Move(Movement.Backward);
-                            LcdConsole.WriteLine("Speed: {0}", robot.Speed);
                             break;
 
                         case "left":
                             robot.Move(Movement.Left);
-                            LcdConsole.WriteLine("Steering: {0}", robot.Steering);
                             break;
 
                         case "right":
                             robot.Move(Movement.Right);
-                            LcdConsole.WriteLine("Steering: {0}", robot.Steering);
                             break;
                     }
 
