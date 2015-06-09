@@ -4,6 +4,7 @@
 
 <div class="container">
     <div class="row">
+        <div id="selectRobotAlert" role="alert"></div>
         <div id="sensors" class="col-md-6">
             <table class="table">
                 <thead>
@@ -132,12 +133,13 @@
             else {
                 $('#dropdown-title').html('Robot ' + robotId);
                 $('#logout').show();
+                $('#selectRobotAlert')
             }
         });
 
         function pushControl(command) {
             if (robotId == -1) {
-                window.alert('Selecteer eerst een robot!');
+                $('#selectRobotAlert').addClass('alert alert-danger').html('Selecteer eerst een robot!');
             }
             else {
                 $.post(
