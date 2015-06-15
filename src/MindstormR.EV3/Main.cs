@@ -58,13 +58,14 @@ namespace MonoBrickHelloWorld
                 float b = Battery.Current;
                 while (running)
                 {
-                    sw.Restart();
-
+                    // Only update battery percentage if it's lower than before.
                     float current = Battery.Current;
                     if (current < b)
                     {
                         b = current;
                     }
+
+                    sw.Restart();
 
                     // Get the new command and push the sensor data in one go.
                     string command = client.DownloadString(
