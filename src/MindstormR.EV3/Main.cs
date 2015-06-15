@@ -55,9 +55,16 @@ namespace MonoBrickHelloWorld
                 var colorSensor = new EV3ColorSensor(SensorPort.In3) { Mode = ColorMode.Color };
                 var irSensor = new EV3IRSensor(SensorPort.In4, IRMode.Proximity);
 
+                float b = Battery.Current;
                 while (running)
                 {
                     sw.Restart();
+
+                    float current = Battery.Current;
+                    if (current < b)
+                    {
+                        b = current;
+                    }
 
                     // Get the new command and push the sensor data in one go.
                     string command = client.DownloadString(
@@ -68,9 +75,8 @@ namespace MonoBrickHelloWorld
                                              gyroSensor.ReadAsString(),
                                              colorSensor.ReadAsString(),
                                              irSensor.ReadAsString(),
-                                             (int)(Battery.Current * 100)));
+                                             (int)(b * 1000)));
                     sw.Stop();
-
                     Info("Command: '{0}' ({1:n2}ms)", false, "Robot " + _id, command, sw.Elapsed.TotalMilliseconds);
 
                     switch (command.ToLower())
