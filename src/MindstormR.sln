@@ -17,16 +17,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.MonoBrick.Firmwa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.EV3", "MindstormR.EV3\MindstormR.EV3.csproj", "{0D2F32E9-4E52-45C9-944D-E82185BEDE19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.Server.SignalR", "MindstormR.Server.SignalR\MindstormR.Server.SignalR.csproj", "{2188FB5F-C036-44F7-B432-576677685C26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindstormR.EV3.SignalR", "MindstormR.EV3.SignalR\MindstormR.EV3.SignalR.csproj", "{042DC425-EFAA-4FE8-8C5B-D9200303DE04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{042DC425-EFAA-4FE8-8C5B-D9200303DE04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042DC425-EFAA-4FE8-8C5B-D9200303DE04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042DC425-EFAA-4FE8-8C5B-D9200303DE04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042DC425-EFAA-4FE8-8C5B-D9200303DE04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D2F32E9-4E52-45C9-944D-E82185BEDE19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D2F32E9-4E52-45C9-944D-E82185BEDE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D2F32E9-4E52-45C9-944D-E82185BEDE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D2F32E9-4E52-45C9-944D-E82185BEDE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2188FB5F-C036-44F7-B432-576677685C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2188FB5F-C036-44F7-B432-576677685C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2188FB5F-C036-44F7-B432-576677685C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2188FB5F-C036-44F7-B432-576677685C26}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F059D54-6030-4511-89A3-220D92F79709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F059D54-6030-4511-89A3-220D92F79709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F059D54-6030-4511-89A3-220D92F79709}.Release|Any CPU.ActiveCfg = Release|Any CPU
